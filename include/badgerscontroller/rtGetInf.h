@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'badgerscontroller'.
 //
-// Model version                  : 8.0
+// Model version                  : 8.1
 // Simulink Coder version         : 9.8 (R2022b) 13-May-2022
-// C/C++ source code generated on : Fri Dec  1 11:30:29 2023
+// C/C++ source code generated on : Fri Dec  1 14:28:49 2023
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: Generic->Unspecified (assume 32-bit Generic)

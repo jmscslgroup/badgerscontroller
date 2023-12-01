@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'badgerscontroller'.
 //
-// Model version                  : 8.0
+// Model version                  : 8.1
 // Simulink Coder version         : 9.8 (R2022b) 13-May-2022
-// C/C++ source code generated on : Fri Dec  1 11:30:29 2023
+// C/C++ source code generated on : Fri Dec  1 14:28:49 2023
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: Generic->Unspecified (assume 32-bit Generic)
@@ -247,6 +247,14 @@ struct P_badgerscontroller_T_ {
                               // Mask Parameter: PIDController1_InitialConditi_d
                                  //  Referenced by: '<S89>/Integrator'
 
+  real_T PIDController_LowerSaturationLi;
+                              // Mask Parameter: PIDController_LowerSaturationLi
+                                 //  Referenced by: '<S48>/Saturation'
+
+  real_T PIDController1_LowerSaturationL;
+                              // Mask Parameter: PIDController1_LowerSaturationL
+                                 //  Referenced by: '<S96>/Saturation'
+
   real_T PIDController_N;              // Mask Parameter: PIDController_N
                                           //  Referenced by: '<S44>/Filter Coefficient'
 
@@ -258,6 +266,14 @@ struct P_badgerscontroller_T_ {
 
   real_T PIDController1_P;             // Mask Parameter: PIDController1_P
                                           //  Referenced by: '<S94>/Proportional Gain'
+
+  real_T PIDController_UpperSaturationLi;
+                              // Mask Parameter: PIDController_UpperSaturationLi
+                                 //  Referenced by: '<S48>/Saturation'
+
+  real_T PIDController1_UpperSaturationL;
+                              // Mask Parameter: PIDController1_UpperSaturationL
+                                 //  Referenced by: '<S96>/Saturation'
 
   SL_Bus_badgerscontroller_std_msgs_Float64 Constant_Value;// Computed Parameter: Constant_Value
                                                               //  Referenced by: '<S1>/Constant'
@@ -331,9 +347,9 @@ struct tag_RTM_badgerscontroller_T {
   //  the timing information for the model.
 
   struct {
-    uint16_T clockTick0;
+    uint32_T clockTick0;
     time_T stepSize0;
-    uint16_T clockTick1;
+    uint32_T clockTick1;
     SimTimeStep simTimeStep;
     boolean_T stopRequestedFlag;
     time_T *t;
@@ -484,7 +500,7 @@ extern volatile boolean_T runModel;
 //  '<S45>'  : 'badgerscontroller/Subsystem/PID Controller/P Copy/Disabled'
 //  '<S46>'  : 'badgerscontroller/Subsystem/PID Controller/Parallel P Gain/Internal Parameters'
 //  '<S47>'  : 'badgerscontroller/Subsystem/PID Controller/Reset Signal/Disabled'
-//  '<S48>'  : 'badgerscontroller/Subsystem/PID Controller/Saturation/Passthrough'
+//  '<S48>'  : 'badgerscontroller/Subsystem/PID Controller/Saturation/Enabled'
 //  '<S49>'  : 'badgerscontroller/Subsystem/PID Controller/Saturation Fdbk/Disabled'
 //  '<S50>'  : 'badgerscontroller/Subsystem/PID Controller/Sum/Sum_PID'
 //  '<S51>'  : 'badgerscontroller/Subsystem/PID Controller/Sum Fdbk/Disabled'
@@ -532,7 +548,7 @@ extern volatile boolean_T runModel;
 //  '<S93>'  : 'badgerscontroller/Subsystem/PID Controller1/P Copy/Disabled'
 //  '<S94>'  : 'badgerscontroller/Subsystem/PID Controller1/Parallel P Gain/Internal Parameters'
 //  '<S95>'  : 'badgerscontroller/Subsystem/PID Controller1/Reset Signal/Disabled'
-//  '<S96>'  : 'badgerscontroller/Subsystem/PID Controller1/Saturation/Passthrough'
+//  '<S96>'  : 'badgerscontroller/Subsystem/PID Controller1/Saturation/Enabled'
 //  '<S97>'  : 'badgerscontroller/Subsystem/PID Controller1/Saturation Fdbk/Disabled'
 //  '<S98>'  : 'badgerscontroller/Subsystem/PID Controller1/Sum/Sum_PID'
 //  '<S99>'  : 'badgerscontroller/Subsystem/PID Controller1/Sum Fdbk/Disabled'

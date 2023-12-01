@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'badgerscontroller'.
 //
-// Model version                  : 8.0
+// Model version                  : 8.1
 // Simulink Coder version         : 9.8 (R2022b) 13-May-2022
-// C/C++ source code generated on : Fri Dec  1 11:30:29 2023
+// C/C++ source code generated on : Fri Dec  1 14:28:49 2023
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: Generic->Unspecified (assume 32-bit Generic)
@@ -129,7 +129,7 @@ void badgerscontroller_step(void)
 {
   SL_Bus_badgerscontroller_std_msgs_Float64 b_varargout_2;
   SL_Bus_badgerscontroller_std_msgs_Float64 rtb_BusAssignment;
-  real_T rtb_Switch;
+  real_T u0;
   if (rtmIsMajorTimeStep(badgerscontroller_M)) {
     // set solver stop time
     rtsiSetSolverStopTime(&badgerscontroller_M->solverInfo,
@@ -185,9 +185,9 @@ void badgerscontroller_step(void)
 
     if ((badgerscontroller_B.In1_n.Data >= badgerscontroller_P.Constant2_Value) ||
         rtIsNaN(badgerscontroller_P.Constant2_Value)) {
-      rtb_Switch = badgerscontroller_B.In1_n.Data;
+      u0 = badgerscontroller_B.In1_n.Data;
     } else {
-      rtb_Switch = badgerscontroller_P.Constant2_Value;
+      u0 = badgerscontroller_P.Constant2_Value;
     }
 
     // Sum: '<S5>/Sum2' incorporates:
@@ -195,7 +195,7 @@ void badgerscontroller_step(void)
     //   MinMax: '<S5>/Max'
     //   Product: '<S5>/Divide'
 
-    badgerscontroller_B.Sum2 = badgerscontroller_B.Data / rtb_Switch -
+    badgerscontroller_B.Sum2 = badgerscontroller_B.Data / u0 -
       badgerscontroller_P.Constant_Value_l;
 
     // Gain: '<S46>/Proportional Gain'
@@ -232,34 +232,53 @@ void badgerscontroller_step(void)
 
   // Switch: '<S5>/Switch1'
   if (badgerscontroller_B.Data > badgerscontroller_P.Switch1_Threshold) {
-    // Switch: '<S5>/Switch' incorporates:
-    //   Integrator: '<S41>/Integrator'
-    //   Integrator: '<S89>/Integrator'
-    //   Sum: '<S50>/Sum'
-    //   Sum: '<S98>/Sum'
-
+    // Switch: '<S5>/Switch'
     if (badgerscontroller_B.Sum2 > badgerscontroller_P.Switch_Threshold) {
-      rtb_Switch = (badgerscontroller_B.ProportionalGain +
-                    badgerscontroller_X.Integrator_CSTATE) +
+      // Sum: '<S50>/Sum' incorporates:
+      //   Integrator: '<S41>/Integrator'
+
+      u0 = (badgerscontroller_B.ProportionalGain +
+            badgerscontroller_X.Integrator_CSTATE) +
         badgerscontroller_B.FilterCoefficient;
+
+      // Saturate: '<S48>/Saturation'
+      if (u0 > badgerscontroller_P.PIDController_UpperSaturationLi) {
+        u0 = badgerscontroller_P.PIDController_UpperSaturationLi;
+      } else if (u0 < badgerscontroller_P.PIDController_LowerSaturationLi) {
+        u0 = badgerscontroller_P.PIDController_LowerSaturationLi;
+      }
+
+      // End of Saturate: '<S48>/Saturation'
     } else {
-      rtb_Switch = (badgerscontroller_B.ProportionalGain_d +
-                    badgerscontroller_X.Integrator_CSTATE_a) +
+      // Sum: '<S98>/Sum' incorporates:
+      //   Integrator: '<S89>/Integrator'
+
+      u0 = (badgerscontroller_B.ProportionalGain_d +
+            badgerscontroller_X.Integrator_CSTATE_a) +
         badgerscontroller_B.FilterCoefficient_f;
+
+      // Saturate: '<S96>/Saturation'
+      if (u0 > badgerscontroller_P.PIDController1_UpperSaturationL) {
+        u0 = badgerscontroller_P.PIDController1_UpperSaturationL;
+      } else if (u0 < badgerscontroller_P.PIDController1_LowerSaturationL) {
+        u0 = badgerscontroller_P.PIDController1_LowerSaturationL;
+      }
+
+      // End of Saturate: '<S96>/Saturation'
     }
 
-    // End of Switch: '<S5>/Switch'
+    // Saturate: '<S5>/Saturation' incorporates:
+    //   Switch: '<S5>/Switch'
 
-    // Saturate: '<S5>/Saturation'
-    if (rtb_Switch > badgerscontroller_P.Saturation_UpperSat) {
+    if (u0 > badgerscontroller_P.Saturation_UpperSat) {
       // BusAssignment: '<Root>/Bus Assignment'
       rtb_BusAssignment.Data = badgerscontroller_P.Saturation_UpperSat;
-    } else if (rtb_Switch < badgerscontroller_P.Saturation_LowerSat) {
+    } else if (u0 < badgerscontroller_P.Saturation_LowerSat) {
       // BusAssignment: '<Root>/Bus Assignment'
       rtb_BusAssignment.Data = badgerscontroller_P.Saturation_LowerSat;
     } else {
       // BusAssignment: '<Root>/Bus Assignment'
-      rtb_BusAssignment.Data = rtb_Switch;
+      rtb_BusAssignment.Data = u0;
     }
 
     // End of Saturate: '<S5>/Saturation'
@@ -301,9 +320,9 @@ void badgerscontroller_step(void)
       (&badgerscontroller_M->solverInfo);
 
     {
-      // Update absolute timer for sample time: [20.0s, 0.0s]
+      // Update absolute timer for sample time: [0.2s, 0.0s]
       // The "clockTick1" counts the number of times the code of this task has
-      //  been executed. The resolution of this integer timer is 20.0, which is the step size
+      //  been executed. The resolution of this integer timer is 0.2, which is the step size
       //  of the task. Size of "clockTick1" ensures timer will not overflow during the
       //  application lifespan selected.
 
@@ -375,7 +394,7 @@ void badgerscontroller_initialize(void)
   rtsiSetIsMinorTimeStepWithModeChange(&badgerscontroller_M->solverInfo, false);
   rtsiSetSolverName(&badgerscontroller_M->solverInfo,"ode3");
   rtmSetTPtr(badgerscontroller_M, &badgerscontroller_M->Timing.tArray[0]);
-  badgerscontroller_M->Timing.stepSize0 = 20.0;
+  badgerscontroller_M->Timing.stepSize0 = 0.2;
 
   {
     char_T b_zeroDelimTopic_0[17];

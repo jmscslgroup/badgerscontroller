@@ -3,9 +3,9 @@
 //
 // Code generated for Simulink model 'badgerscontroller'.
 //
-// Model version                  : 8.0
+// Model version                  : 8.1
 // Simulink Coder version         : 9.8 (R2022b) 13-May-2022
-// C/C++ source code generated on : Fri Dec 01 11:30:38 2023
+// C/C++ source code generated on : Fri Dec 01 14:28:55 2023
 //
 
 #ifdef _MSC_VER
@@ -125,7 +125,7 @@ namespace ros
     void NodeInterface::schedulerThread(void)
     {
       while (mRunModel) {
-        std::this_thread::sleep_for(std::chrono::nanoseconds(20000000000));
+        std::this_thread::sleep_for(std::chrono::nanoseconds(200000000));
         mBaseRateSem.notify();
       }
     }

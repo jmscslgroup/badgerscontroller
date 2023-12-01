@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'badgerscontroller'.
 //
-// Model version                  : 8.0
+// Model version                  : 8.1
 // Simulink Coder version         : 9.8 (R2022b) 13-May-2022
-// C/C++ source code generated on : Fri Dec  1 11:30:29 2023
+// C/C++ source code generated on : Fri Dec  1 14:28:49 2023
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: Generic->Unspecified (assume 32-bit Generic)
@@ -60,6 +60,16 @@ P_badgerscontroller_T badgerscontroller_P = {
 
   0.0,
 
+  // Mask Parameter: PIDController_LowerSaturationLi
+  //  Referenced by: '<S48>/Saturation'
+
+  -3.0,
+
+  // Mask Parameter: PIDController1_LowerSaturationL
+  //  Referenced by: '<S96>/Saturation'
+
+  -3.0,
+
   // Mask Parameter: PIDController_N
   //  Referenced by: '<S44>/Filter Coefficient'
 
@@ -79,6 +89,16 @@ P_badgerscontroller_T badgerscontroller_P = {
   //  Referenced by: '<S94>/Proportional Gain'
 
   1.75,
+
+  // Mask Parameter: PIDController_UpperSaturationLi
+  //  Referenced by: '<S48>/Saturation'
+
+  1.5,
+
+  // Mask Parameter: PIDController1_UpperSaturationL
+  //  Referenced by: '<S96>/Saturation'
+
+  1.5,
 
   // Computed Parameter: Constant_Value
   //  Referenced by: '<S1>/Constant'
